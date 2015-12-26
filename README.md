@@ -2,6 +2,10 @@ This repository contains a small webserver handling the solving process of AMPL-
 
 It uses [SYMPHONY from COIN-OR](https://github.com/coin-or/SYMPHONY) as the underlying optimization-framework. The webapp is uses light-weight webserver (written in *GO*).
 
+
+[![screenshot](https://github.com/PatWie/symphony-web/raw/master/screenshot.png)](#Screenshot)
+
+
 # Install and Use
 The installation procedure is different in Linux (Ubuntu) and Max OSX
 
@@ -100,8 +104,4 @@ If you want to be fancy, you can give the docker VM a name with something like
 ```
 echo $(docker-machine ip default) dockerhost | sudo tee -a /etc/hosts
 ```
-
-# Screenshot
-
-[![screenshot](https://github.com/PatWie/symphony-web/raw/master/screenshot.png)](#Screenshot)
 
