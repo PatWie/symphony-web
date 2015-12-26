@@ -11,46 +11,99 @@
 })(function(CodeMirror) {
 "use strict";
 
-CodeMirror.defineMode("octave", function() {
+CodeMirror.defineMode("ampl", function() {
   function wordRegexp(words) {
     return new RegExp("^((" + words.join(")|(") + "))\\b");
   }
 
   var singleOperators = new RegExp("^[\\+\\-\\*/&|\\^~<>!@'\\\\]");
-  var singleDelimiters = new RegExp('^[\\(\\[\\{\\},:=;]');
-  var doubleOperators = new RegExp("^((==)|(~=)|(<=)|(>=)|(<<)|(>>)|(\\.[\\+\\-\\*/\\^\\\\]))");
+  var singleDelimiters = new RegExp('^[\\(\\[\\{\\}\\[\\],:=;]');
+  var doubleOperators = new RegExp("^((==)|(:=)|(~=)|(<=)|(>=)|(<<)|(>>)|(\\.[\\+\\-\\*/\\^\\\\]))");
   var doubleDelimiters = new RegExp("^((!=)|(\\+=)|(\\-=)|(\\*=)|(/=)|(&=)|(\\|=)|(\\^=))");
   var tripleDelimiters = new RegExp("^((>>=)|(<<=))");
-  var expressionEnd = new RegExp("^[\\]\\)]");
+  var expressionEnd = new RegExp("^;");
   var identifiers = new RegExp("^[_A-Za-z\xa1-\uffff][_A-Za-z0-9\xa1-\uffff]*");
 
-  var builtins = wordRegexp([
-    'sum'
+
+  var defs = wordRegexp([
+    'abs',
+    'sum',
+    'atan',
+    'card',
+    'ceil',
+    'cos',
+    'exp',
+    'floor',
+    'gmtime',
+    'length',
+    'log',
+    'log10',
+    'max',
+    'min',
+    'round',
+    'sin',
+    'sqrt',
+    'str2time',
+    'trunc',
+    'Irand224',
+    'Uniform01',
+    'Uniform',
+    'Normal01',
+    'Normal'
   ]);
 
   var keywords = wordRegexp([
-"param",
-"var",
-"set",
-"maximize",
-"minimize",
-"subject to",
-"binary",
-"integer",
-]);
+    "param", 
+    "var", 
+    "maximize", 
+    "minimize", 
+    "s.t.", 
+    "data", 
+    "end", 
+    "set", 
+    "table", 
+    "subject", 
+    "to", 
+    "subj", 
+    "solve", 
+    "check", 
+    "display", 
+    "for"
+  ]);
 
+  var builtins = wordRegexp([
+    "printf"
+  ]);
 
-  // tokenizers
-  function tokenTranspose(stream, state) {
-    if (!stream.sol() && stream.peek() === '\'') {
-      stream.next();
-      state.tokenize = tokenBase;
-      return 'operator';
-    }
-    state.tokenize = tokenBase;
-    return tokenBase(stream, state);
-  }
-
+  
+  var atoms = wordRegexp([
+    'dimen',
+    'default',
+    'integer',
+    'binary',
+    'logical',
+    'symbolic',
+    'OUT',
+    'IN',
+    'and',
+    'by',
+    'cross',
+    'diff',
+    'div',
+    'else',
+    'if',
+    'in',
+    'Infinity',
+    'inter',
+    'less',
+    'mod',
+    'not',
+    'or',
+    'symdiff',
+    'then',
+    'union',
+    'within'
+  ]);
 
   function tokenComment(stream, state) {
     if (stream.match(/^.*%}/)) {
@@ -93,19 +146,18 @@ CodeMirror.defineMode("octave", function() {
 
     // Handle words
     if (stream.match(keywords)) { return 'keyword'; } ;
+    if (stream.match(defs)) { return 'def'; } ;
     if (stream.match(builtins)) { return 'builtin'; } ;
+    if (stream.match(atoms)) { return 'atom'; } ;
     if (stream.match(identifiers)) { return 'variable'; } ;
 
     if (stream.match(singleOperators) || stream.match(doubleOperators)) { return 'operator'; };
     if (stream.match(singleDelimiters) || stream.match(doubleDelimiters) || stream.match(tripleDelimiters)) { return null; };
 
-    if (stream.match(expressionEnd)) {
-      state.tokenize = tokenTranspose;
-      return null;
-    };
 
 
     // Handle non-detected items
+    console.log(stream);
     stream.next();
     return 'error';
   };
@@ -121,13 +173,12 @@ CodeMirror.defineMode("octave", function() {
     token: function(stream, state) {
       var style = state.tokenize(stream, state);
       if (style === 'number' || style === 'variable'){
-        state.tokenize = tokenTranspose;
       }
       return style;
     }
   };
 });
 
-CodeMirror.defineMIME("text/x-octave", "octave");
+CodeMirror.defineMIME("text/x-ampl", "ampl");
 
 });
