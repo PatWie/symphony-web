@@ -15,15 +15,15 @@ That's it!
 # Use
 
 ```
-sudo docker run -p PORT -it symphony-web
+sudo docker run -p PORT:9090 -it symphony-web
 ```
 
-where PORT is any port on your machine. I use "9090", too.
-Point your browser to `http://localhost:PORT/`, where PORT is your chosen PORT.
+where `PORT` is any port on your (host) machine (`9090` is the port exposed to the host from the docker machine.
+I use `9090` for both. Point your browser to `http://localhost:PORT/`, where `PORT` is your chosen `PORT`.
 
-# Instructions for Mac OSX
+# Installation on Mac OSX
 
-Things are a bit more complicated on OSX. OSX is not like Linux---virtualization is not built into the kernel. Therefore, we need to run the docker machine inside another VM. For this we, need virtualbox. The instructions below are for installing virutalbox wth homebrew, which seems to work very well. (Caveat: I first found some old instructions on how to do this and take a round-about path to the installation. Therefore, the list of commdns below is not exactly what I did. However, I think it's the right incantation if you are starting from scratch with an updated install of homebrew.)
+Since Docker is a bit more difficult to get running on OSX than on Linux, this is some additiona documentation for the OSX crowd. OSX is not like Linux---virtualization is not built into the kernel. Therefore, we need to run the docker machine inside another VM. For this, we need virtualbox. The instructions below are for installing virutalbox with `homebrew`, which seems to work very well. (Caveat: I first found some old instructions on how to do this and took a round-about path to the installation. Therefore, the list of commdns below is not exactly what I did. However, I think it's the right incantation if you are starting from scratch with an updated install of homebrew.)
 
 First, install virtualbox
 
@@ -46,6 +46,7 @@ Create a new docker server to run in virtualbox and set environment variables so
 docker-machine create --driver virtualbox default
 eval "$(docker-machine env default)"
 ```
+
 Now follow instructions as above for building the container
 
 ```
@@ -58,38 +59,26 @@ Finally, start up the server and the container
 
 ```
 docker-machine start default
-docker run -d -p 9090 --name=web symphony-web
+docker run -d -p PORT:9090 --name=web symphony-web
 ```
 
-Now you should have the web server running in the background that you can reach on port 9090. Next, you need to find out how to connect to it fro outside of the VM. Since it's running inside VM and there may be multiple containers inside the VM listening on the same port, there is some port mapping involved. To find the port that is mapped to 9090 for this particular container, execute
-
-```
-docker port web 9090
-```
-
-For example, the output on my achine looks like
-
-```
-OSX: ~/symphony-web> docker port web 9090
-0.0.0.0:32768
-```
-
-Finally, find out what IP address is assigned to the VM with
+where `PORT` is the port you want to use for accessing the server on the host machine (the second port `9090` is the port used by the docker machine running inside virtual box). Finally, find out what IP address is assigned to the VM with
 
 ```
 docker-machine ip default
 ```
-For me, it is
+
+For example, on my OSX box, it is
 
 ```
 OSX: ~/symphony-web> docker-machine ip default
 192.168.99.100
 ```
 
-Finally, point your browser to the IP address of the VM and the port number you obtained above, i.e.
+Finally, point your browser to the IP address of the VM and the port number from above, i.e.
 
 ```
-192.168.99.100:32768
+192.168.99.100:PORT
 ```
 
 If you want to be fancy, you can give the docker VM a name with something like
