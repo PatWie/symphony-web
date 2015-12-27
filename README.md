@@ -1,8 +1,17 @@
 This repository contains a small webserver handling the solving process of AMPL-models directly from your web-browser without external services.
 
-It uses [SYMPHONY from COIN-OR](https://github.com/coin-or/SYMPHONY) as the underlying framework. The webapp is written in *GO* coming with a light-weight webserver.
+It uses [SYMPHONY from COIN-OR](https://github.com/coin-or/SYMPHONY) as the underlying optimization-framework. The webapp is uses light-weight webserver (written in *GO*).
 
-# Install
+
+[![screenshot](https://github.com/PatWie/symphony-web/raw/master/screenshot.png)](#Screenshot)
+
+
+# Install and Use
+The installation procedure is different in Linux (Ubuntu) and Max OSX
+
+## Ubuntu
+
+You just clone the repository and build the docker by
 
 ```
 git clone https://github.com/PatWie/symphony-web.git
@@ -10,18 +19,16 @@ cd symphony-web
 sudo docker build -t symphony-web image/
 ```
 
-That's it!
-
-# Use
+To launch the application (listening on Port 9090 inside the docker) use
 
 ```
-sudo docker run -p PORT:9090 -it symphony-web
+sudo docker run -p PORT:9090 symphony-web
 ```
 
-where `PORT` is any port on your (host) machine (`9090` is the port exposed to the host from the docker machine.
-I use `9090` for both. Point your browser to `http://localhost:PORT/`, where `PORT` is your chosen `PORT`.
+which forwards the port 9090 (inside docker) to *PORT* on your machine.
+If you use `-p 3333:9090`, then point your browser to `http://localhost:3333/`.
 
-# Installation on Mac OSX
+## Mac OSX (from Pull-Request)
 
 Since Docker is a bit more difficult to get running on OSX than on Linux, this is some additiona documentation for the OSX crowd. OSX is not like Linux---virtualization is not built into the kernel. Therefore, we need to run the docker machine inside another VM. For this, we need virtualbox. The instructions below are for installing virutalbox with `homebrew`, which seems to work very well. (Caveat: I first found some old instructions on how to do this and took a round-about path to the installation. Therefore, the list of commdns below is not exactly what I did. However, I think it's the right incantation if you are starting from scratch with an updated install of homebrew.)
 
@@ -86,9 +93,4 @@ If you want to be fancy, you can give the docker VM a name with something like
 ```
 echo $(docker-machine ip default) dockerhost | sudo tee -a /etc/hosts
 ```
-
-# Screenshot
-
-[![screenshot](https://github.com/PatWie/symphony-web/raw/master/screenshot.png)](#Screenshot)
-
 
