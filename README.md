@@ -30,7 +30,7 @@ If you use `-p 3333:9090`, then point your browser to `http://localhost:3333/`.
 
 ## Mac OSX (from Pull-Request)
 
-Since Docker is a bit more difficult to get running on OSX than on Linux, this is some additiona documentation for the OSX crowd. OSX is not like Linux---virtualization is not built into the kernel. Therefore, we need to run the docker machine inside another VM. For this, we need virtualbox. The instructions below are for installing virutalbox with `homebrew`, which seems to work very well. (Caveat: I first found some old instructions on how to do this and took a round-about path to the installation. Therefore, the list of commdns below is not exactly what I did. However, I think it's the right incantation if you are starting from scratch with an updated install of homebrew.)
+Since Docker is a bit more difficult to get running on OSX than on Linux, this is some additional documentation for the OSX crowd. OSX is not like Linux---virtualization is not built into the kernel. Therefore, we need to run the docker machine inside another VM. For this, we need virtualbox. The instructions below are for installing virutalbox with `homebrew`, which seems to work very well. (Caveat: I first found some old instructions on how to do this and took a round-about path to the installation. Therefore, the list of commands below is not exactly what I did. However, I think it's the right incantation if you're starting from scratch with an updated install of homebrew.)
 
 First, install virtualbox
 
