@@ -7,11 +7,10 @@ It uses [SYMPHONY from COIN-OR](https://github.com/coin-or/SYMPHONY) as the unde
 
 
 # Install and Use
-The installation procedure is different in Linux (Ubuntu) and Max OSX
 
 ## Ubuntu
 
-You just clone the repository and build the docker by
+Just clone the repository and build the docker image by
 
 ```
 git clone https://github.com/PatWie/symphony-web.git
@@ -19,7 +18,7 @@ cd symphony-web
 sudo docker build -t symphony-web image/
 ```
 
-To launch the application (listening on Port 9090 inside the docker) use
+To launch the application (listening on Port 9090 inside docker) use
 
 ```
 sudo docker run -p PORT:9090 symphony-web
@@ -27,6 +26,38 @@ sudo docker run -p PORT:9090 symphony-web
 
 which forwards the port 9090 (inside docker) to *PORT* on your machine.
 If you use `-p 3333:9090`, then point your browser to `http://localhost:3333/`.
+
+## Windows
+
+First install Docker for Windows. Depending on whether you are using a recent
+version of Windows, you may need to enable virtualization in the BIOS
+settings. For details, see
+
+https://docs.docker.com/engine/installation/windows
+
+As of this writing, it's important that you let Docker install Git for Windows
+(do not uncheck the box for installing git in the installer, even though it
+indicates that it is optional). After installing, run the "Docker Quickstart
+Terminal" application. Make a note of the IP address assigned to the docker machine (something like 192.168.99.100).
+
+From the terminal clone the repository and build the docker image by the
+commands
+
+```
+git clone https://github.com/PatWie/symphony-web.git
+cd symphony-web
+docker build -t symphony-web image/
+```
+
+To launch the application (listening on Port 9090 inside the docker) use
+
+```
+docker run -p PORT:9090 symphony-web
+```
+
+which forwards the port 9090 (inside docker) to *PORT* on your machine. If you
+use `-p 3333:9090`, then point your browser to `http://***.***.**.**:3333/`,
+where `***.***.**.**` is the IP address of the Docker machine, noted earlier.
 
 ## Mac OSX (from Pull-Request)
 
