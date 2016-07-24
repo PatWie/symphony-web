@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 
-	<title>GMPL Model Editor and Solver</title>
+	<title>Model Editor and Solver</title>
 
 	<script type="text/javascript" src="assets/js/jquery.js"></script>
 	<script type="text/javascript" src="assets/js/jquery.ui.all.js"></script>
@@ -21,6 +21,7 @@
 	var cmSiteModel;
 	var cmSiteData;
 	var cmSiteOutput;
+	var cmSiteParams;
 	$(document).ready(function () {
 		myLayout = $('body').layout({
 			//east__showOverflowOnHover: true,
@@ -31,10 +32,14 @@
 		});
 		cmSiteModel = CodeMirror.fromTextArea(document.getElementById('edit-model'), {lineNumbers: true, mode: "ampl", matchBrackets : true, tabMode: "indent","theme": "monokai","lineWrapping":true,scrollbarStyle: "overlay"}); 
 		cmSiteData = CodeMirror.fromTextArea(document.getElementById('edit-data'), {lineNumbers: true, mode: "ampl", matchBrackets : true, tabMode: "indent","theme": "monokai","lineWrapping":true,scrollbarStyle: "overlay"}); 
-		cmSiteOutput = CodeMirror.fromTextArea(document.getElementById('edit-output'), {lineNumbers: true, mode: "plain", matchBrackets : true, tabMode: "indent","theme": "monokai","lineWrapping":true,scrollbarStyle: "overlay", height:"100%", readonly:true}); 
-	
-		cmSiteOutput.setSize("100%","100%");
-
+		cmSiteOutput =
+	CodeMirror.fromTextArea(document.getElementById('edit-output'),
+	{lineNumbers: true, mode: "plain", matchBrackets : true, tabMode:
+	"indent","theme": "monokai","lineWrapping":true,scrollbarStyle:
+	"overlay", height:"100%", readonly:true});
+	cmSiteOutput.setSize("100%","100%");
+		cmSiteParams = CodeMirror.fromTextArea(document.getElementById('edit-params'), {lineNumbers: true, mode: "plain", matchBrackets : true, tabMode: "indent","theme": "monokai","lineWrapping":true,scrollbarStyle: "overlay", height:"100%"}); 
+	cmSiteParams.setSize("100%","80%");
 	});
 
 	function clear(){
@@ -44,7 +49,7 @@
 		$.ajax({
 	    url : "/api",
 	    type: "POST",
-	    data : {raw_model:cmSiteModel.getValue(),raw_data:cmSiteData.getValue()},//Array ,
+	    data : {raw_model:cmSiteModel.getValue(),raw_data:cmSiteData.getValue(),raw_params:cmSiteParams.getValue()},//Array ,
 	    success: function(data, textStatus, jqXHR)
 	    {
 	        //data - response from server
@@ -167,7 +172,7 @@
   --	onclick='saveModelAsFile()'>Save/Download</button> -->
 <textarea id="edit-model">
 # we find the optimal assign of student -> groups 
-# according their preferences
+# according to their preferences
 
 set student;
 set group;
@@ -192,6 +197,8 @@ subject to min3_per_group{j in group}:
 # there are at most 4 student per group
 subject to max4_per_group{j in group}:
     sum{i in student} assign[i,j] <=4;
+
+end;
 </textarea>
 	<h3>Data</h3>
 	<input type="file" onchange="loadDataFile(this)">
@@ -231,17 +238,25 @@ Stock         5 2 1 6 6 7 4 3
 Truman        6 3 2 7 7 5 1 4
 Wolman        6 7 4 2 2 3 5 1
 Young         1 3 4 7 7 6 2 5;
+
+end;
 	</textarea>
 
 </div>
 
-<div class="ui-layout-east">
-<div style="height:100%">
+	<div class="ui-layout-east">
+	  <div style="height:20%">
+<h3>Parameters</h3>
+<textarea id="edit-params" class="full">
+time_limit 10
+</textarea>
+</div>
+	  <div style="height:80%">
 <button class="btn" type="button" onclick="solve();">Solve</button>
 <!-- <button class="btn" type="button" --
   -- onclick='saveOutputAsFile()'>Save/Download</button> -->
 <h3>Output</h3>
-	<textarea id="edit-output" class="full"></textarea>
+<textarea id="edit-output" class="full"></textarea>
 </div>
 </div>
 
