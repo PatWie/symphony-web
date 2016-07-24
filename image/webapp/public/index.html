@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 
-	<title>Free AMPL Solver</title>
+	<title>GMPL Model Editor and Solver</title>
 
 	<script type="text/javascript" src="assets/js/jquery.js"></script>
 	<script type="text/javascript" src="assets/js/jquery.ui.all.js"></script>
@@ -57,6 +57,101 @@
 	});
 	}
 
+	function saveOutputAsFile() {
+                var textToWrite = document.getElementById("edit-output").value;
+                var textFileAsBlob = new Blob([textToWrite], {
+                    type: 'text/plain'
+                });
+                var fileNameToSaveAs = "myfile.html";
+
+                var downloadLink = document.createElement("a");
+                downloadLink.download = fileNameToSaveAs;
+                downloadLink.innerHTML = "Download File";
+                if (window.webkitURL != null) {
+                    // Chrome allows the link to be clicked
+                    // without actually adding it to the DOM.
+                    downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+                } else {
+                    // Firefox requires the link to be added to the DOM
+                    // before it can be clicked.
+                    downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+                    downloadLink.onclick = destroyClickedElement;
+                    downloadLink.style.display = "none";
+                    document.body.appendChild(downloadLink);
+                }
+
+                downloadLink.click();
+        }
+
+	function saveModelAsFile() {
+                var textToWrite = document.getElementById("edit-model").value;
+                var textFileAsBlob = new Blob([textToWrite], {
+                    type: 'text/plain'
+                });
+                var fileNameToSaveAs = "myfile.html";
+
+                var downloadLink = document.createElement("a");
+                downloadLink.download = fileNameToSaveAs;
+                downloadLink.innerHTML = "Download File";
+                if (window.webkitURL != null) {
+                    // Chrome allows the link to be clicked
+                    // without actually adding it to the DOM.
+                    downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+                } else {
+                    // Firefox requires the link to be added to the DOM
+                    // before it can be clicked.
+                    downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+                    downloadLink.onclick = destroyClickedElement;
+                    downloadLink.style.display = "none";
+                    document.body.appendChild(downloadLink);
+                }
+
+                downloadLink.click();
+        }
+
+	function saveDataAsFile() {
+                var textToWrite = document.getElementById("edit-data").value;
+                var textFileAsBlob = new Blob([textToWrite], {
+                    type: 'text/plain'
+                });
+                var fileNameToSaveAs = "myfile.html";
+
+                var downloadLink = document.createElement("a");
+                downloadLink.download = fileNameToSaveAs;
+                downloadLink.innerHTML = "Download File";
+                if (window.webkitURL != null) {
+                    // Chrome allows the link to be clicked
+                    // without actually adding it to the DOM.
+                    downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+                } else {
+                    // Firefox requires the link to be added to the DOM
+                    // before it can be clicked.
+                    downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+                    downloadLink.onclick = destroyClickedElement;
+                    downloadLink.style.display = "none";
+                    document.body.appendChild(downloadLink);
+                }
+
+                downloadLink.click();
+        }
+
+        function loadModelFile(input) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    cmSiteModel.setValue(e.target.result);
+                }
+                reader.readAsText(input.files[0]);
+        }
+
+
+        function loadDataFile(input) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    cmSiteData.setValue(e.target.result);
+                }
+                reader.readAsText(input.files[0]);
+        }
+
 
 	</script>
 
@@ -67,6 +162,9 @@
 
 <div class="outer-center">
 	<h3>Model</h3>
+	<input type="file" onchange="loadModelFile(this)">
+<!--	<button class="btn" type="button" --
+  --	onclick='saveModelAsFile()'>Save/Download</button> -->
 <textarea id="edit-model">
 # we find the optimal assign of student -> groups 
 # according their preferences
@@ -96,6 +194,9 @@ subject to max4_per_group{j in group}:
     sum{i in student} assign[i,j] <=4;
 </textarea>
 	<h3>Data</h3>
+	<input type="file" onchange="loadDataFile(this)">
+<!--	<button class="btn" type="button" --
+  --	onclick='saveDataAsFile()'>Save/Download</button> -->
 <textarea id="edit-data">
 set group:= A B C D E F G H;
 set student:= Allen Black Chung Clark Conners Cumming Demming Eng Farmer Forest Goodman Harris Holmes Johnson Knorr Manheim Morris Nathan Neuman Patrick Rollins Schuman Silver Stein Stock Truman Wolman Young;
@@ -136,7 +237,9 @@ Young         1 3 4 7 7 6 2 5;
 
 <div class="ui-layout-east">
 <div style="height:100%">
-<button class="btn" type="button" onclick="solve();">solve</button>
+<button class="btn" type="button" onclick="solve();">Solve</button>
+<!-- <button class="btn" type="button" --
+  -- onclick='saveOutputAsFile()'>Save/Download</button> -->
 <h3>Output</h3>
 	<textarea id="edit-output" class="full"></textarea>
 </div>
