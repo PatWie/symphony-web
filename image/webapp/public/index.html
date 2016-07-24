@@ -30,16 +30,26 @@
 			resizable:  false,
 			center__paneSelector:	".outer-center",
 		});
-		cmSiteModel = CodeMirror.fromTextArea(document.getElementById('edit-model'), {lineNumbers: true, mode: "ampl", matchBrackets : true, tabMode: "indent","theme": "monokai","lineWrapping":true,scrollbarStyle: "overlay"}); 
-		cmSiteData = CodeMirror.fromTextArea(document.getElementById('edit-data'), {lineNumbers: true, mode: "ampl", matchBrackets : true, tabMode: "indent","theme": "monokai","lineWrapping":true,scrollbarStyle: "overlay"}); 
+		cmSiteModel =
+	CodeMirror.fromTextArea(document.getElementById('edit-model'),
+	{lineNumbers: true, mode: "ampl", matchBrackets : true, tabMode:
+	"indent","theme": "monokai","lineWrapping":true,scrollbarStyle:
+	"overlay"}); 
+	cmSiteModel.setSize("100%", 350);
+		cmSiteData =
+	CodeMirror.fromTextArea(document.getElementById('edit-data'),
+	{lineNumbers: true, mode: "ampl", matchBrackets : true, tabMode:
+	"indent","theme": "monokai","lineWrapping":true,scrollbarStyle:
+	"overlay"}); 
+	cmSiteData.setSize("100%", 350);
 		cmSiteOutput =
 	CodeMirror.fromTextArea(document.getElementById('edit-output'),
 	{lineNumbers: true, mode: "plain", matchBrackets : true, tabMode:
 	"indent","theme": "monokai","lineWrapping":true,scrollbarStyle:
-	"overlay", height:"100%", readonly:true});
-	cmSiteOutput.setSize("100%","100%");
-		cmSiteParams = CodeMirror.fromTextArea(document.getElementById('edit-params'), {lineNumbers: true, mode: "plain", matchBrackets : true, tabMode: "indent","theme": "monokai","lineWrapping":true,scrollbarStyle: "overlay", height:"100%"}); 
-	cmSiteParams.setSize("100%","80%");
+	"overlay", readonly:true});
+	cmSiteOutput.setSize("100%", 600);
+		cmSiteParams = CodeMirror.fromTextArea(document.getElementById('edit-params'), {lineNumbers: true, mode: "plain", matchBrackets : true, tabMode: "indent","theme": "monokai","lineWrapping":true,scrollbarStyle: "overlay"}); 
+	cmSiteParams.setSize("100%",100);
 	});
 
 	function clear(){
@@ -200,10 +210,10 @@ subject to max4_per_group{j in group}:
 
 end;
 </textarea>
-	<h3>Data</h3>
-	<input type="file" onchange="loadDataFile(this)">
+<h3>Data</h3>
+<input type="file" onchange="loadDataFile(this)">
 <!--	<button class="btn" type="button" --
-  --	onclick='saveDataAsFile()'>Save/Download</button> -->
+		--	onclick='saveDataAsFile()'>Save/Download</button> -->
 <textarea id="edit-data">
 set group:= A B C D E F G H;
 set student:= Allen Black Chung Clark Conners Cumming Demming Eng Farmer Forest Goodman Harris Holmes Johnson Knorr Manheim Morris Nathan Neuman Patrick Rollins Schuman Silver Stein Stock Truman Wolman Young;
@@ -245,19 +255,15 @@ end;
 </div>
 
 	<div class="ui-layout-east">
-	  <div style="height:20%">
 <h3>Parameters</h3>
 <textarea id="edit-params" class="full">
 time_limit 10
 </textarea>
-</div>
-	  <div style="height:80%">
 <button class="btn" type="button" onclick="solve();">Solve</button>
 <!-- <button class="btn" type="button" --
   -- onclick='saveOutputAsFile()'>Save/Download</button> -->
 <h3>Output</h3>
 <textarea id="edit-output" class="full"></textarea>
-</div>
 </div>
 
 
