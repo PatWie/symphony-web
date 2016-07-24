@@ -1,19 +1,54 @@
-This repository contains a small webserver handling the solving process of AMPL-models directly from your web-browser without external services.
+This repository contains a small webserver handling the solving process of
+GMPL (an AMPL clone) models directly from your web browser without external
+services.
 
-It uses [SYMPHONY from COIN-OR](https://github.com/coin-or/SYMPHONY) as the underlying optimization-framework. The webapp is uses light-weight webserver (written in *GO*).
+It uses [SYMPHONY from COIN-OR](https://github.com/coin-or/SYMPHONY) as the
+underlying optimization-framework. The webapp is uses light-weight webserver
+(written in *GO*).
 
+The original was written by [Patrick Wieschollek](http://wieschollek.info/),
+Thanks, Patrick!
 
-[![screenshot](https://github.com/PatWie/symphony-web/raw/master/screenshot.png)](#Screenshot)
+[![screenshot](https://github.com/tkralphs/symphony-web/raw/master/screenshot.png)](#Screenshot)
 
+# Install and Use From Docker Hub
 
-# Install and Use
+This image is now on [Docker
+Hub](https://hub.docker.com/r/tkralphs/symphony-web/). To use, simply install
+Docker (see instructions below) and then do
+
+```
+docker run -p PORT:9090 tkralphs/symphony-web
+```
+
+The image will automatically be pulled the first time you use it. In Windows and
+OS X, you can then fire up the Web browser and point it at either
+
+```
+http://***.***.**.**:3333/`
+```
+
+where `***.***.**.**` is the IP address of the Docker machine, which you can
+retrieve by the command
+
+```
+docker-machine ip default
+```
+
+In Linux, point your browesr instead at
+
+```
+http://localhost:3333/`
+```
+
+# Build from Source
 
 ## Ubuntu
 
 Just clone the repository and build the docker image by
 
 ```
-git clone https://github.com/PatWie/symphony-web.git
+git clone https://github.com/tkralphs/symphony-web
 cd symphony-web
 sudo docker build -t symphony-web image/
 ```
@@ -38,7 +73,8 @@ https://docs.docker.com/engine/installation/windows
 As of this writing, it's important that you let Docker install Git for Windows
 (do not uncheck the box for installing git in the installer, even though it
 indicates that it is optional). After installing, run the "Docker Quickstart
-Terminal" application. Make a note of the IP address assigned to the docker machine (something like 192.168.99.100).
+Terminal" application. Make a note of the IP address assigned to the docker
+machine (something like 192.168.99.100).
 
 From the terminal clone the repository and build the docker image by the
 commands
@@ -61,7 +97,20 @@ where `***.***.**.**` is the IP address of the Docker machine, noted earlier.
 
 ## Mac OSX
 
-Since Docker is a bit more difficult to get running on OSX than on Linux, this is some additional documentation for the OSX crowd. OSX is not like Linux---virtualization is not built into the kernel. Therefore, we need to run the docker machine inside another VM. For this, we need virtualbox. The instructions below are for installing virutalbox with `homebrew`, which seems to work very well. (Caveat: I first found some old instructions on how to do this and took a round-about path to the installation. Therefore, the list of commands below is not exactly what I did. However, I think it's the right incantation if you're starting from scratch with an updated install of homebrew.)
+Since Docker is a bit more difficult to get running on OSX than on Linux, this
+is some additional documentation for the OSX crowd. OSX is not like
+Linux---virtualization is not built into the kernel. Therefore, we need to run
+the docker machine inside another VM. For this, we need virtualbox. The
+instructions below are for installing virutalbox with `homebrew`, which seems
+to work very well. (Caveat: I first found some old instructions on how to do
+this and took a round-about path to the installation. Therefore, the list of
+commands below is not exactly what I did. However, I think it's the right
+incantation if you're starting from scratch with an updated install of
+homebrew.)
+
+Update: There now seems to be a trouble-free installation of Docker on OS X as
+a native app. I haven't tried this, but I guess it should work well and might
+be preferable is you are not already using `homebrew`.
 
 First, install virtualbox
 
@@ -78,7 +127,8 @@ brew install docker
 brew install docker-machine
 ```
 
-Create a new docker server to run in virtualbox and set environment variables so docker knows how to connect to it.
+Create a new docker server to run in virtualbox and set environment variables
+so docker knows how to connect to it.
 
 ```
 docker-machine create --driver virtualbox default
@@ -97,10 +147,13 @@ Finally, start up the server and the container
 
 ```
 docker-machine start default
-docker run -d -p PORT:9090 --name=web symphony-web
+docker run -d -p PORT:9090 symphony-web
 ```
 
-where `PORT` is the port you want to use for accessing the server on the host machine (the second port `9090` is the port used by the docker machine running inside virtual box). Finally, find out what IP address is assigned to the VM with
+where `PORT` is the port you want to use for accessing the server on the host
+machine (the second port `9090` is the port used by the docker machine running
+inside virtual box). Finally, find out what IP address is assigned to the VM
+with
 
 ```
 docker-machine ip default
