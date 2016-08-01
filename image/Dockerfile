@@ -1,8 +1,8 @@
-FROM ubuntu:trusty
-MAINTAINER Patrick Wieschollek <patrick@wieschollek.info>
+FROM ubuntu:latest
+MAINTAINER Ted Ralphs <ted@lehigh.edu>
 
 RUN apt-get update
-RUN apt-get -y install git subversion gcc clang cmake wget gfortran
+RUN apt-get -y install git subversion gcc g++ make wget gfortran
 RUN apt-get -y install golang
 
 RUN cd /var

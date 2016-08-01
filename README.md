@@ -1,9 +1,11 @@
-This repository contains a small webserver handling the solving process of
-GMPL (an AMPL clone) models directly from your web browser without external
-services.
+This repository contains a small web app that serves as a GUI interface for
+editing and loading models into optimization solvers, solving the resulting
+models and returning results directly from your web browser without external
+services. You can run this app either on your local machine using Docker or
+even install it on a remote machine.
 
 It uses [SYMPHONY from COIN-OR](https://github.com/coin-or/SYMPHONY) as the
-underlying optimization-framework. The webapp is uses light-weight webserver
+underlying optimization framework. The web app uses a light-weight webserver
 (written in *GO*).
 
 The original was written by [Patrick Wieschollek](http://wieschollek.info/),
@@ -80,7 +82,7 @@ From the terminal clone the repository and build the docker image by the
 commands
 
 ```
-git clone https://github.com/PatWie/symphony-web.git
+git clone https://github.com/tkralphs/symphony-web.git
 cd symphony-web
 docker build -t symphony-web image/
 ```
