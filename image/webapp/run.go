@@ -19,9 +19,11 @@ func ApiHandler(w http.ResponseWriter, r *http.Request) {
     r.ParseForm()
     rawModel := r.Form["raw_model"]
     rawData := r.Form["raw_data"]
+    rawParams := r.Form["raw_params"]
 
     writeLines(rawModel,"request.mod")
     writeLines(rawData,"request.dat")
+    writeLines(rawParams,"request.par")
 
     exec.Command("/bin/bash", "solve.sh").Output()
 
