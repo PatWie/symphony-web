@@ -8,9 +8,6 @@ It uses [SYMPHONY from COIN-OR](https://github.com/coin-or/SYMPHONY) as the
 underlying optimization framework. The web app uses a light-weight webserver
 (written in *GO*).
 
-The original was written by [Patrick Wieschollek](http://wieschollek.info/),
-Thanks, Patrick!
-
 [![screenshot](https://github.com/tkralphs/symphony-web/raw/master/screenshot.png)](#Screenshot)
 
 # Install and Use From Docker Hub
